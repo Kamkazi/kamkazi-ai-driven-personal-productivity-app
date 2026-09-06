@@ -10,6 +10,8 @@ import {
   Mic,
   MoreHorizontal,
   Paperclip,
+  PanelLeftClose,
+  PanelLeftOpen,
   Pin,
   RefreshCw,
   Search,
@@ -48,6 +50,7 @@ export function ChatScreen({ chatId }: { chatId?: string | undefined }) {
   const [query, setQuery] = useState("");
   const [draft, setDraft] = useState("");
   const [menuFor, setMenuFor] = useState<string | null>(null);
+  const [historyOpen, setHistoryOpen] = useState(true);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const active = conversations.find((c) => c.id === chatId) ?? null;
@@ -80,13 +83,28 @@ export function ChatScreen({ chatId }: { chatId?: string | undefined }) {
   return (
     <div className="flex min-h-screen">
       {/* history */}
-      <div className={cn("w-full shrink-0 flex-col border-r border-border px-3 py-4 md:flex md:w-[248px]", active && "hidden md:flex")}>
+      <div
+        className={cn(
+          "w-full shrink-0 flex-col border-r border-border px-3 py-4 md:flex md:w-[248px]",
+          active && "hidden md:flex",
+          !historyOpen && "md:hidden",
+        )}
+      >
+        <button
+          type="button"
+          onClick={() => setHistoryOpen(false)}
+          aria-label="Collapse chat list"
+          className="mb-2 hidden items-center gap-2 self-start rounded-lg px-2 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground md:flex"
+        >
+          <PanelLeftClose className="size-4" aria-hidden />
+          Hide chats
+        </button>
         <button
           type="button"
           onClick={() => startChat()}
           className="mb-3 flex items-center gap-2 rounded-lg border border-border bg-surface px-2.5 py-2 text-[13.5px] font-medium transition-colors hover:border-border-strong"
         >
-          <MessageSquarePlus className="size-4 text-primary" aria-hidden />
+          <MessageSquarePlus className="size-4 text-accent-violet" aria-hidden />
           New chat
         </button>
         <div className="mb-3 flex items-center gap-2 rounded-lg bg-surface-2 px-2.5 py-1.5">
@@ -112,10 +130,10 @@ export function ChatScreen({ chatId }: { chatId?: string | undefined }) {
                         params={{ chatId: c.id }}
                         className={cn(
                           "flex items-center gap-2 rounded-lg px-2.5 py-[7px] text-[13.5px] transition-colors",
-                          c.id === chatId ? "bg-surface-2 font-medium" : "text-foreground/80 hover:bg-surface-2/70",
+                          c.id === chatId ? "bg-accent-violet/12 font-medium text-foreground" : "text-foreground/80 hover:bg-surface-2/70",
                         )}
                       >
-                        {c.pinned ? <Pin className="size-3 shrink-0 text-muted-foreground" aria-hidden /> : null}
+                        {c.pinned ? <Pin className="size-3 shrink-0 text-accent-amber" aria-hidden /> : null}
                         <span className="truncate">{c.title}</span>
                       </Link>
                       <button
@@ -171,7 +189,23 @@ export function ChatScreen({ chatId }: { chatId?: string | undefined }) {
 
       {/* conversation */}
       <div className={cn("flex min-w-0 flex-1 flex-col", !active && "hidden md:flex")}>
-        <PageHeader title={active ? active.title : "AI Chat"} subtitle={active ? relativeStamp(active.updatedAt) : "Ask about your day"} />
+        <PageHeader
+          title={active ? active.title : "AI Chat"}
+          subtitle={active ? relativeStamp(active.updatedAt) : "Ask about your day"}
+          actions={
+            !historyOpen ? (
+              <button
+                type="button"
+                onClick={() => setHistoryOpen(true)}
+                aria-label="Show chat list"
+                className="hidden items-center gap-2 rounded-lg border border-border px-2.5 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground md:flex"
+              >
+                <PanelLeftOpen className="size-4" aria-hidden />
+                Chats
+              </button>
+            ) : null
+          }
+        />
         <div className="flex-1 overflow-y-auto">
           <div className="mx-auto w-full max-w-[720px] px-4 py-6 md:px-6">
             {!active ? (
@@ -188,7 +222,7 @@ export function ChatScreen({ chatId }: { chatId?: string | undefined }) {
                       onClick={() => startChat(text)}
                       className="flex items-center gap-2.5 rounded-lg border border-border bg-surface px-3 py-3 text-left text-[14px] transition-colors hover:border-border-strong"
                     >
-                      <Icon className="size-[17px] shrink-0 text-primary" aria-hidden />
+                      <Icon className="size-[17px] shrink-0 text-accent-violet" aria-hidden />
                       {text}
                     </button>
                   ))}
@@ -259,7 +293,7 @@ export function ChatScreen({ chatId }: { chatId?: string | undefined }) {
         </div>
 
         {/* composer */}
-        <div className="sticky bottom-0 border-t border-border bg-background/90 px-4 py-3 backdrop-blur md:px-6">
+        <div className="sticky bottom-[calc(60px+env(safe-area-inset-bottom))] border-t border-border md:bottom-0 bg-background/90 px-4 py-3 backdrop-blur md:px-6">
           <div className="mx-auto w-full max-w-[720px]">
             {draft.startsWith("/") ? (
               <div className="mb-2 overflow-hidden rounded-lg border border-border bg-popover">
