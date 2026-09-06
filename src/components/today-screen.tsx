@@ -59,21 +59,21 @@ export function TodayScreen() {
           {/* header */}
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <h1 className="text-[28px] font-semibold leading-tight tracking-tight md:text-[32px]">
+              <h1 className="text-[30px] font-extrabold leading-[1.1] tracking-tight md:text-[36px]">
                 <span suppressHydrationWarning>{greeting(now.getHours())}</span>, {userName}
               </h1>
-              <p className="mt-1 text-[14.5px] text-muted-foreground">{longDate(TODAY)}</p>
+              <p className="mt-1.5 text-[14.5px] font-medium text-muted-foreground">{longDate(TODAY)}</p>
 
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-accent-amber/25 bg-accent-amber/10 px-3 py-1.5 text-muted-foreground">
+            <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-2 text-muted-foreground shadow-[var(--shadow-panel)]">
               {weather.condition.toLowerCase().includes("cloud") ? (
                 <Cloud className="size-[18px] text-accent-teal" aria-hidden />
               ) : (
                 <Sun className="size-[18px] text-accent-amber" aria-hidden />
               )}
-              <span className="tnum text-[14px] font-medium text-foreground">{weather.temp}°</span>
-              <span className="text-[13px]">{weather.condition}</span>
-              <span className="tnum text-[13px]">
+              <span className="num text-[15px] font-bold text-foreground">{weather.temp}°</span>
+              <span className="text-[13px] font-medium">{weather.condition}</span>
+              <span className="num text-[13px]">
                 H {weather.high}° · L {weather.low}°
               </span>
             </div>
@@ -83,14 +83,14 @@ export function TodayScreen() {
           {/* briefing */}
           {settings.dailyBriefing ? (
             <section
-              className="mt-7 rounded-2xl border border-accent-violet/20 bg-gradient-to-br from-accent-violet/8 via-surface to-accent-teal/8 p-5"
+              className="gradient-primary animate-fade-up mt-7 rounded-[var(--radius-xl)] p-5 text-primary-foreground shadow-[var(--shadow-3d)]"
               aria-label="Daily briefing"
             >
-              <div className="mb-2.5 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.08em] text-accent-violet">
+              <div className="mb-2.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] opacity-80">
                 <Sparkles className="size-3.5" aria-hidden />
                 Daily briefing
               </div>
-              <p className="text-[15.5px] leading-relaxed text-balance-tight">{briefing}</p>
+              <p className="text-[16px] font-medium leading-relaxed text-balance-tight">{briefing}</p>
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Plan my day", "Ask about today", "Prioritize my tasks"].map((label) => (
@@ -101,7 +101,7 @@ export function TodayScreen() {
                       const id = addConversation();
                       void navigate({ to: "/chat/$chatId", params: { chatId: id } });
                     }}
-                    className="rounded-lg border border-border px-2.5 py-1.5 text-[13px] transition-colors hover:border-border-strong hover:bg-surface-2"
+                    className="tap rounded-full border border-primary-foreground/25 bg-primary-foreground/12 px-3 py-1.5 text-[13px] font-semibold backdrop-blur transition-colors hover:bg-primary-foreground/20"
                   >
                     {label}
                   </button>
@@ -119,15 +119,15 @@ export function TodayScreen() {
                 addTask(quickTask.trim(), settings.defaultListId, TODAY);
                 setQuickTask("");
               }}
-              className="flex min-w-[220px] flex-1 items-center gap-2.5 rounded-lg border border-border bg-surface px-3 py-2 focus-within:border-border-strong"
+              className="flex min-w-[220px] flex-1 items-center gap-2.5 rounded-full border border-border bg-card px-4 py-2.5 shadow-[var(--shadow-panel)] focus-within:border-primary/40"
             >
-              <Plus className="size-[17px] text-muted-foreground" aria-hidden />
+              <Plus className="size-[17px] text-primary" strokeWidth={2.4} aria-hidden />
               <input
                 value={quickTask}
                 onChange={(e) => setQuickTask(e.target.value)}
                 placeholder="Add a task for today"
                 aria-label="Add a task for today"
-                className="w-full bg-transparent text-[14px] outline-none placeholder:text-muted-foreground"
+                className="w-full bg-transparent text-[14px] font-medium outline-none placeholder:font-normal placeholder:text-muted-foreground"
               />
             </form>
             <button
@@ -136,9 +136,9 @@ export function TodayScreen() {
                 const id = addNote(settings.defaultNotebookId);
                 void navigate({ to: "/notes/$noteId", params: { noteId: id } });
               }}
-              className="hidden items-center gap-1.5 rounded-lg border border-border px-2.5 py-2 text-[13px] transition-colors hover:border-border-strong sm:flex"
+              className="tap hidden items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-2.5 text-[13px] font-semibold shadow-[var(--shadow-panel)] sm:flex"
             >
-              <StickyNote className="size-4 text-muted-foreground" aria-hidden />
+              <StickyNote className="size-4 text-accent-amber" aria-hidden />
               New note
             </button>
             <button
@@ -147,12 +147,13 @@ export function TodayScreen() {
                 const id = addConversation();
                 void navigate({ to: "/chat/$chatId", params: { chatId: id } });
               }}
-              className="hidden items-center gap-1.5 rounded-lg border border-border px-2.5 py-2 text-[13px] transition-colors hover:border-border-strong sm:flex"
+              className="tap hidden items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-2.5 text-[13px] font-semibold shadow-[var(--shadow-panel)] sm:flex"
             >
               <Sparkles className="size-4 text-accent-violet" aria-hidden />
               Ask AI
             </button>
           </div>
+
 
           {/* overdue */}
           {overdue.length ? (
