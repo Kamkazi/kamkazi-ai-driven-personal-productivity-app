@@ -144,7 +144,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
 
 
-      <main className="flex min-w-0 flex-1 flex-col pb-[calc(60px+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
+      <main className="flex min-w-0 flex-1 flex-col pb-[calc(76px+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
 
       {/* iPhone bottom tab bar */}
       <nav
