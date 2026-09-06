@@ -4,9 +4,9 @@ import { NoteEditor } from "@/components/note-editor";
 export const Route = createFileRoute("/notes/$noteId")({
   head: () => ({
     meta: [
-      { title: "Note — Daylight" },
+      { title: "Note — Kamkazi" },
       { name: "description", content: "Write in a calm, full-page Markdown editor with tags, pinning and sharing." },
-      { property: "og:title", content: "Note — Daylight" },
+      { property: "og:title", content: "Note — Kamkazi" },
       { property: "og:description", content: "Write in a calm, full-page Markdown editor with tags, pinning and sharing." },
     ],
   }),

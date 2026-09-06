@@ -82,13 +82,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "Daylight — your calm daily workspace" },
+      { title: "Kamkazi — your calm daily workspace" },
       {
         name: "description",
         content: "Tasks, notes, your schedule and an assistant that understands your day, in one calm workspace.",
       },
-      { name: "author", content: "Daylight" },
-      { property: "og:title", content: "Daylight — your calm daily workspace" },
+      { name: "author", content: "Kamkazi" },
+      { property: "og:title", content: "Kamkazi — your calm daily workspace" },
       {
         property: "og:description",
         content: "Tasks, notes, your schedule and an assistant that understands your day, in one calm workspace.",

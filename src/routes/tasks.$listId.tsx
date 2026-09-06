@@ -4,9 +4,9 @@ import { TasksScreen } from "@/components/tasks-screen";
 export const Route = createFileRoute("/tasks/$listId")({
   head: () => ({
     meta: [
-      { title: "Task list — Daylight" },
+      { title: "Task list — Kamkazi" },
       { name: "description", content: "A focused view of one task list, with due dates, priorities and subtasks." },
-      { property: "og:title", content: "Task list — Daylight" },
+      { property: "og:title", content: "Task list — Kamkazi" },
       { property: "og:description", content: "A focused view of one task list, with due dates, priorities and subtasks." },
     ],
   }),

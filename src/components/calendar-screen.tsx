@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useStore } from "@/lib/store";
-import { TODAY, datedEvents, type Task } from "@/data/seed";
+import { TODAY, dayOffset, datedEvents, type Task } from "@/data/seed";
 import { EmptyState, TaskCheckbox } from "@/components/primitives";
 import { TaskDetail } from "@/components/task-detail";
 import { EventDetail } from "@/components/event-detail";
@@ -19,9 +19,20 @@ const iso = (y: number, m: number, d: number) =>
 
 export function CalendarScreen() {
   const { tasks } = useStore();
-  const todayParts = TODAY.split("-").map(Number) as [number, number, number];
+  // TODAY is baked in at render time on the server; realign once in the browser.
+  const [today, setToday] = useState(TODAY);
+  const todayParts = today.split("-").map(Number) as [number, number, number];
   const [cursor, setCursor] = useState({ year: todayParts[0], month: todayParts[1] - 1 });
   const [selected, setSelected] = useState(TODAY);
+
+  useEffect(() => {
+    const actual = dayOffset(0);
+    if (actual === TODAY) return;
+    const parts = actual.split("-").map(Number) as [number, number, number];
+    setToday(actual);
+    setCursor({ year: parts[0], month: parts[1] - 1 });
+    setSelected(actual);
+  }, []);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
@@ -73,7 +84,7 @@ export function CalendarScreen() {
                 type="button"
                 onClick={() => {
                   setCursor({ year: todayParts[0], month: todayParts[1] - 1 });
-                  setSelected(TODAY);
+                  setSelected(today);
                 }}
                 className="tap rounded-full border border-border bg-card px-3.5 py-2 text-[13px] font-semibold shadow-[var(--shadow-panel)]"
               >
@@ -114,7 +125,7 @@ export function CalendarScreen() {
               {days.map((date, i) => {
                 if (!date) return <span key={`e${i}`} />;
                 const dayNum = Number(date.slice(8));
-                const isToday = date === TODAY;
+                const isToday = date === today;
                 const isSelected = date === selected;
                 const evs = dayEvents(date);
                 const tks = dayTasks(date);
@@ -160,7 +171,7 @@ export function CalendarScreen() {
           {/* agenda */}
           <section className="min-w-0" aria-label="Agenda for selected day">
             <h2 className="mb-3 text-[16px] font-bold tracking-tight">
-              {selected === TODAY ? "Today" : longDate(selected)}
+              {selected === today ? "Today" : longDate(selected)}
             </h2>
             {agenda.length === 0 ? (
               <EmptyState

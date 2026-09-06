@@ -52,7 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <CheckCircle2 className="size-[18px]" aria-hidden />
           </span>
           {!sidebarCollapsed ? (
-            <span className="font-display text-[16px] font-extrabold tracking-tight">Daylight</span>
+            <span className="font-display text-[16px] font-extrabold tracking-tight">Kamkazi</span>
           ) : null}
         </div>
 

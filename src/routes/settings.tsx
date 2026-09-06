@@ -10,9 +10,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — Daylight" },
+      { title: "Settings — Kamkazi" },
       { name: "description", content: "Appearance, assistant behaviour, task defaults, notebooks, calendars, weather and notifications." },
-      { property: "og:title", content: "Settings — Daylight" },
+      { property: "og:title", content: "Settings — Kamkazi" },
       { property: "og:description", content: "Appearance, assistant behaviour, task defaults, notebooks, calendars, weather and notifications." },
     ],
   }),
