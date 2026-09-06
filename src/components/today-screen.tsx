@@ -78,12 +78,16 @@ export function TodayScreen() {
 
           {/* briefing */}
           {settings.dailyBriefing ? (
-            <section className="mt-7 rounded-2xl border border-border bg-surface p-5" aria-label="Daily briefing">
-              <div className="mb-2.5 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.08em] text-primary">
+            <section
+              className="mt-7 rounded-2xl border border-accent-violet/20 bg-gradient-to-br from-accent-violet/8 via-surface to-accent-teal/8 p-5"
+              aria-label="Daily briefing"
+            >
+              <div className="mb-2.5 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.08em] text-accent-violet">
                 <Sparkles className="size-3.5" aria-hidden />
                 Daily briefing
               </div>
               <p className="text-[15.5px] leading-relaxed text-balance-tight">{briefing}</p>
+
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Plan my day", "Ask about today", "Prioritize my tasks"].map((label) => (
                   <button
