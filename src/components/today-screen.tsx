@@ -38,11 +38,16 @@ function timeOfDay(hour: number): keyof typeof HEROES {
 }
 
 
+const SYNC_INTERVAL_MIN = 15;
+
 export function TodayScreen() {
   const { tasks, events, setPaletteOpen, addTask, addNote, addConversation, settings } = useStore();
   const navigate = useNavigate();
   const [now, setNow] = useState(() => new Date());
   const [mounted, setMounted] = useState(false);
+  const [today, setToday] = useState(TODAY);
+  const [lastSynced, setLastSynced] = useState<Date | null>(null);
+  const [syncing, setSyncing] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [quickTask, setQuickTask] = useState("");
@@ -51,11 +56,38 @@ export function TodayScreen() {
   useEffect(() => {
     setMounted(true);
     setNow(new Date());
+    setToday(dayOffset(0));
+    setLastSynced(new Date());
     const t = setInterval(() => setNow(new Date()), 60_000);
     return () => clearInterval(t);
   }, []);
 
+  const refresh = useCallback(() => {
+    setSyncing(true);
+    window.setTimeout(() => {
+      setNow(new Date());
+      setToday(dayOffset(0));
+      setLastSynced(new Date());
+      setSyncing(false);
+    }, 650);
+  }, []);
+
+  // Automatic sync every 15 minutes while the app is open.
+  useEffect(() => {
+    const t = setInterval(refresh, SYNC_INTERVAL_MIN * 60_000);
+    return () => clearInterval(t);
+  }, [refresh]);
+
+  const syncedLabel = useMemo(() => {
+    if (!lastSynced) return "";
+    const mins = Math.max(0, Math.round((now.getTime() - lastSynced.getTime()) / 60_000));
+    if (mins < 1) return "Updated just now";
+    if (mins === 1) return "Updated 1 min ago";
+    return `Updated ${mins} mins ago`;
+  }, [lastSynced, now]);
+
   const nowMin = mounted ? now.getHours() * 60 + now.getMinutes() : -1;
+
 
   const selected = tasks.find((t) => t.id === selectedId) ?? null;
   const rawEvent = events.find((e) => e.id === selectedEventId) ?? null;
