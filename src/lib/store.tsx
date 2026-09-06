@@ -46,8 +46,11 @@ interface Store {
   theme: Theme;
   settings: Settings;
   paletteOpen: boolean;
+  sidebarCollapsed: boolean;
+  toggleSidebar: () => void;
   setPaletteOpen: (v: boolean) => void;
   toggleTheme: () => void;
+
   updateSetting: <K extends keyof Settings>(k: K, v: Settings[K]) => void;
   toggleTask: (id: string) => void;
   updateTask: (id: string, patch: Partial<Task>) => void;
