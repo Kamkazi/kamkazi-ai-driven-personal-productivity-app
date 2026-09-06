@@ -57,15 +57,15 @@ export function CalendarScreen() {
   return (
     <div className="flex min-h-screen">
       <div className="min-w-0 flex-1">
-        <div className="mx-auto w-full max-w-[760px] px-4 py-7 md:px-8 md:py-10">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h1 className="text-[28px] font-extrabold leading-tight tracking-tight md:text-[34px]">
+        <div className="mx-auto w-full max-w-[1100px] px-4 py-7 md:px-8 md:py-10">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <h1 className="truncate text-[24px] font-extrabold leading-tight tracking-tight md:text-[30px]">
                 {MONTHS[cursor.month]} <span className="num text-muted-foreground">{cursor.year}</span>
               </h1>
-              <p className="mt-1 text-[13.5px] font-medium text-muted-foreground">{longDate(selected)}</p>
+              <p className="mt-1 truncate text-[13px] font-medium text-muted-foreground">{longDate(selected)}</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -97,16 +97,17 @@ export function CalendarScreen() {
             </div>
           </div>
 
+          <div className="mt-5 grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start lg:gap-8">
           {/* month grid */}
-          <section className="panel animate-fade-up mt-5 p-3 md:p-4" aria-label="Month">
-            <div className="grid grid-cols-7 pb-1.5">
+          <section className="panel animate-fade-up p-2.5 lg:sticky lg:top-6" aria-label="Month">
+            <div className="grid grid-cols-7 pb-1">
               {WEEKDAYS.map((d, i) => (
-                <span key={i} className="text-center text-[11px] font-bold uppercase tracking-[0.08em] text-muted-foreground">
+                <span key={i} className="text-center text-[10px] font-bold uppercase tracking-[0.08em] text-muted-foreground">
                   {d}
                 </span>
               ))}
             </div>
-            <div className="grid grid-cols-7 gap-y-1">
+            <div className="grid grid-cols-7">
               {days.map((date, i) => {
                 if (!date) return <span key={`e${i}`} />;
                 const dayNum = Number(date.slice(8));
@@ -127,11 +128,11 @@ export function CalendarScreen() {
                     onClick={() => setSelected(date)}
                     aria-pressed={isSelected}
                     aria-label={longDate(date)}
-                    className="tap flex flex-col items-center gap-1 rounded-[14px] py-1.5 transition-colors hover:bg-surface-2/70"
+                    className="tap flex flex-col items-center gap-0.5 rounded-[12px] py-1 transition-colors hover:bg-surface-2/70"
                   >
                     <span
                       className={cn(
-                        "num grid size-9 place-items-center rounded-full text-[14.5px] font-semibold",
+                        "num grid size-8 place-items-center rounded-full text-[13px] font-semibold",
                         isSelected
                           ? "gradient-primary text-primary-foreground shadow-[var(--shadow-3d)]"
                           : isToday
@@ -143,7 +144,7 @@ export function CalendarScreen() {
                     </span>
                     <span className="flex h-1.5 items-center gap-[3px]">
                       {dots.map((c, j) => (
-                        <span key={j} className={cn("size-1.5 rounded-full", c)} aria-hidden />
+                        <span key={j} className={cn("size-1 rounded-full", c)} aria-hidden />
                       ))}
                     </span>
                   </button>
@@ -152,8 +153,9 @@ export function CalendarScreen() {
             </div>
           </section>
 
+
           {/* agenda */}
-          <section className="mt-7" aria-label="Agenda for selected day">
+          <section className="min-w-0" aria-label="Agenda for selected day">
             <h2 className="mb-3 text-[16px] font-bold tracking-tight">
               {selected === TODAY ? "Today" : longDate(selected)}
             </h2>
@@ -195,6 +197,7 @@ export function CalendarScreen() {
               </div>
             )}
           </section>
+          </div>
 
           <div className="h-10" />
         </div>
