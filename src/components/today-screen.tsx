@@ -50,7 +50,7 @@ export function TodayScreen() {
     return entries.sort((a, b) => a.min - b.min);
   }, [events, todaysTasks]);
 
-  const nextUp = timeline.find((e) => e.min > nowMin);
+  const nextUp = mounted ? timeline.find((e) => e.min > nowMin) : undefined;
 
   return (
     <div className="flex min-h-screen">
