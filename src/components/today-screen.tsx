@@ -20,7 +20,21 @@ import { formatDuration, formatTime, greeting, longDate, minutesOf, relativeDate
 import { TaskCheckbox, EmptyState } from "@/components/primitives";
 import { TaskDetail } from "@/components/task-detail";
 import { cn } from "@/lib/utils";
-import heroIllustration from "@/assets/today-hero.jpg";
+import heroMorning from "@/assets/today-hero.jpg";
+import heroAfternoon from "@/assets/today-hero-afternoon.jpg";
+import heroEvening from "@/assets/today-hero-evening.jpg";
+
+const HEROES = {
+  morning: { src: heroMorning, alt: "Illustration of a calm valley at sunrise" },
+  afternoon: { src: heroAfternoon, alt: "Illustration of a sunlit valley in the afternoon" },
+  evening: { src: heroEvening, alt: "Illustration of a quiet valley at dusk" },
+} as const;
+
+function timeOfDay(hour: number): keyof typeof HEROES {
+  if (hour < 12) return "morning";
+  if (hour < 17) return "afternoon";
+  return "evening";
+}
 
 
 export function TodayScreen() {
@@ -55,6 +69,8 @@ export function TodayScreen() {
     return entries.sort((a, b) => a.min - b.min);
   }, [events, todaysTasks]);
 
+  const hero = HEROES[mounted ? timeOfDay(now.getHours()) : "morning"];
+
   const nextUp = mounted ? timeline.find((e) => e.min > nowMin) : undefined;
 
   return (
@@ -88,11 +104,12 @@ export function TodayScreen() {
           {/* pastel hero illustration */}
           <section className="animate-fade-up mt-6 overflow-hidden rounded-[var(--radius-xl)] border border-border shadow-[var(--shadow-panel)]">
             <img
-              src={heroIllustration}
-              alt="Illustration of a calm valley at sunrise"
+              key={hero.src}
+              src={hero.src}
+              alt={hero.alt}
               width={1536}
               height={768}
-              className="h-[150px] w-full object-cover md:h-[210px]"
+              className="animate-fade-up h-[150px] w-full object-cover md:h-[210px]"
             />
           </section>
 

@@ -4,6 +4,7 @@ import { useStore } from "@/lib/store";
 import { TODAY, datedEvents, type Task } from "@/data/seed";
 import { EmptyState, TaskCheckbox } from "@/components/primitives";
 import { TaskDetail } from "@/components/task-detail";
+import { EventDetail } from "@/components/event-detail";
 import { formatDuration, formatTime, longDate, minutesOf } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ export function CalendarScreen() {
   const [cursor, setCursor] = useState({ year: todayParts[0], month: todayParts[1] - 1 });
   const [selected, setSelected] = useState(TODAY);
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const days = useMemo(() => {
     const first = new Date(Date.UTC(cursor.year, cursor.month, 1));
@@ -39,6 +41,7 @@ export function CalendarScreen() {
   const selectedTasks = dayTasks(selected);
   const selectedEvents = dayEvents(selected);
   const selectedTask = tasks.find((t) => t.id === selectedTaskId) ?? null;
+  const selectedEvent = datedEvents.find((e) => e.id === selectedEventId) ?? null;
 
   const agenda = useMemo(() => {
     const items: { key: string; min: number; task?: Task; event?: (typeof datedEvents)[number] }[] = [];
@@ -169,7 +172,23 @@ export function CalendarScreen() {
               <div className="panel px-2 py-2">
                 {agenda.map((item) =>
                   item.event ? (
-                    <div key={item.key} className="flex gap-3 rounded-lg px-1 py-2.5 transition-colors hover:bg-surface-2/60">
+                    <div
+                      key={item.key}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => {
+                        setSelectedTaskId(null);
+                        setSelectedEventId(item.event!.id);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          setSelectedTaskId(null);
+                          setSelectedEventId(item.event!.id);
+                        }
+                      }}
+                      className="flex cursor-default gap-3 rounded-lg px-1 py-2.5 text-left transition-colors hover:bg-surface-2/60"
+                    >
                       <span className="tnum w-[60px] shrink-0 pt-0.5 text-right text-[12.5px] text-muted-foreground">
                         {item.event.allDay ? "All day" : formatTime(item.event.start)}
                       </span>
@@ -191,7 +210,14 @@ export function CalendarScreen() {
                       </span>
                     </div>
                   ) : item.task ? (
-                    <CalendarTask key={item.key} task={item.task} onSelect={() => setSelectedTaskId(item.task!.id)} />
+                    <CalendarTask
+                      key={item.key}
+                      task={item.task}
+                      onSelect={() => {
+                        setSelectedEventId(null);
+                        setSelectedTaskId(item.task!.id);
+                      }}
+                    />
                   ) : null,
                 )}
               </div>
@@ -203,22 +229,33 @@ export function CalendarScreen() {
         </div>
       </div>
 
-      {selectedTask ? (
+      {selectedTask || selectedEvent ? (
         <>
           <div className="hidden w-[350px] shrink-0 border-l border-border xl:block">
             <div className="sticky top-0 h-screen">
-              <TaskDetail task={selectedTask} onClose={() => setSelectedTaskId(null)} />
+              {selectedTask ? (
+                <TaskDetail task={selectedTask} onClose={() => setSelectedTaskId(null)} />
+              ) : selectedEvent ? (
+                <EventDetail event={selectedEvent} onClose={() => setSelectedEventId(null)} />
+              ) : null}
             </div>
           </div>
           <div className="fixed inset-0 z-40 xl:hidden">
             <button
               type="button"
-              aria-label="Close task details"
-              onClick={() => setSelectedTaskId(null)}
+              aria-label="Close details"
+              onClick={() => {
+                setSelectedTaskId(null);
+                setSelectedEventId(null);
+              }}
               className="absolute inset-0 bg-foreground/20"
             />
             <div className="absolute inset-x-0 bottom-0 top-16 overflow-hidden rounded-t-2xl border-t border-border bg-surface shadow-raised">
-              <TaskDetail task={selectedTask} onClose={() => setSelectedTaskId(null)} />
+              {selectedTask ? (
+                <TaskDetail task={selectedTask} onClose={() => setSelectedTaskId(null)} />
+              ) : selectedEvent ? (
+                <EventDetail event={selectedEvent} onClose={() => setSelectedEventId(null)} />
+              ) : null}
             </div>
           </div>
         </>
