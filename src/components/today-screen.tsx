@@ -204,7 +204,9 @@ export function TodayScreen() {
                 {timeline.map((entry, idx) => {
                   const prev = timeline[idx - 1];
                   const gap = prev ? entry.min - (prev.min + (prev.event?.durationMin ?? 0)) : 0;
-                  const showNowLine = prev ? nowMin > prev.min && nowMin <= entry.min : nowMin <= entry.min;
+                  const showNowLine =
+                    mounted && (prev ? nowMin > prev.min && nowMin <= entry.min : nowMin <= entry.min);
+
                   return (
                     <div key={entry.key}>
                       {gap >= 90 ? (
