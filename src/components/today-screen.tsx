@@ -7,15 +7,16 @@ import {
   ListPlus,
   MessageSquarePlus,
   Plus,
+  RotateCw,
   Sparkles,
   StickyNote,
   Sun,
   X,
   Zap,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useStore } from "@/lib/store";
-import { TODAY, briefing, userName, weather, type Task } from "@/data/seed";
+import { TODAY, briefing, dayOffset, userName, weather, type Task } from "@/data/seed";
 import { formatDuration, formatTime, greeting, longDate, minutesOf, relativeDate } from "@/lib/format";
 import { TaskCheckbox, EmptyState } from "@/components/primitives";
 import { TaskDetail } from "@/components/task-detail";
@@ -119,7 +120,7 @@ export function TodayScreen() {
               <h1 className="text-[30px] font-extrabold leading-[1.1] tracking-tight md:text-[36px]">
                 <span suppressHydrationWarning>{greeting(now.getHours())}</span>, {userName}
               </h1>
-              <p className="mt-1.5 text-[14.5px] font-medium text-muted-foreground">{longDate(TODAY)}</p>
+              <p className="mt-1.5 text-[14.5px] font-medium text-muted-foreground"><span suppressHydrationWarning>{longDate(today)}</span></p>
 
             </div>
             <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-2 text-muted-foreground shadow-[var(--shadow-panel)]">
@@ -158,6 +159,19 @@ export function TodayScreen() {
               <div className="mb-2.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                 <Sparkles className="size-3.5" aria-hidden />
                 Daily briefing
+                <span className="ml-auto flex items-center gap-2 normal-case tracking-normal">
+                  <span className="text-[11px] font-semibold" suppressHydrationWarning>
+                    {syncing ? "Refreshing…" : syncedLabel}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={refresh}
+                    aria-label="Refresh briefing and calendar"
+                    className="tap grid size-7 place-items-center rounded-full border border-border bg-card/70 text-foreground transition-colors hover:bg-card"
+                  >
+                    <RotateCw className={cn("size-3.5", syncing && "animate-spin")} aria-hidden />
+                  </button>
+                </span>
               </div>
               <p className="text-[16px] font-medium leading-relaxed text-balance-tight">{briefing}</p>
 
