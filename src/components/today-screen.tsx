@@ -61,18 +61,19 @@ export function TodayScreen() {
               <p className="mt-1 text-[14.5px] text-muted-foreground">{longDate(TODAY)}</p>
 
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center gap-2 rounded-full border border-accent-amber/25 bg-accent-amber/10 px-3 py-1.5 text-muted-foreground">
               {weather.condition.toLowerCase().includes("cloud") ? (
-                <Cloud className="size-[18px]" aria-hidden />
+                <Cloud className="size-[18px] text-accent-teal" aria-hidden />
               ) : (
-                <Sun className="size-[18px]" aria-hidden />
+                <Sun className="size-[18px] text-accent-amber" aria-hidden />
               )}
-              <span className="tnum text-[14px] text-foreground">{weather.temp}°</span>
+              <span className="tnum text-[14px] font-medium text-foreground">{weather.temp}°</span>
               <span className="text-[13px]">{weather.condition}</span>
               <span className="tnum text-[13px]">
                 H {weather.high}° · L {weather.low}°
               </span>
             </div>
+
           </div>
 
           {/* briefing */}
