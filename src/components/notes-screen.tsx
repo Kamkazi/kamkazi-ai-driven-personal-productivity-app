@@ -80,7 +80,7 @@ export function NotesScreen({ activeNoteId }: { activeNoteId?: string | undefine
                   notebook === nb.id ? "bg-surface-2 font-medium" : "text-foreground/80 hover:bg-surface-2/70",
                 )}
               >
-                <Icon className="size-4 text-muted-foreground" aria-hidden />
+                <Icon className="size-4 text-accent-green" aria-hidden />
                 {nb.name}
                 {count ? <span className="tnum ml-auto text-[12px] text-muted-foreground">{count}</span> : null}
               </button>
@@ -104,6 +104,25 @@ export function NotesScreen({ activeNoteId }: { activeNoteId?: string | undefine
             </button>
           }
         />
+        {/* notebook switcher — iPad & mobile */}
+        <div className="flex gap-2 overflow-x-auto border-b border-border px-3 py-2.5 lg:hidden">
+          {[{ id: "all", name: "All notes" }, ...notebooks].map((nb) => (
+            <button
+              key={nb.id}
+              type="button"
+              onClick={() => setNotebook(nb.id)}
+              className={cn(
+                "shrink-0 rounded-full border px-3 py-1.5 text-[13px] transition-colors",
+                notebook === nb.id
+                  ? "border-transparent bg-accent-green/14 font-medium text-accent-green"
+                  : "border-border text-muted-foreground",
+              )}
+            >
+              {nb.name}
+            </button>
+          ))}
+        </div>
+
         <div className="mx-auto w-full max-w-3xl flex-1 px-3 py-4 md:px-6">
           <div className="mb-4 flex items-center gap-2">
             <div className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-surface px-2.5 py-2 focus-within:border-border-strong">
@@ -169,13 +188,15 @@ function NoteRow({ id, active }: { id: string; active: boolean }) {
     >
       <div className="flex items-baseline gap-2">
         <p className="min-w-0 flex-1 truncate text-[14.5px] font-medium">{note.title || "Untitled note"}</p>
-        {note.pinned ? <Pin className="size-3.5 shrink-0 text-muted-foreground" aria-label="Pinned" /> : null}
+        {note.pinned ? <Pin className="size-3.5 shrink-0 text-accent-amber" aria-label="Pinned" /> : null}
         <span className="shrink-0 text-[12px] text-muted-foreground">{relativeStamp(note.updatedAt)}</span>
       </div>
       <p className="mt-0.5 truncate text-[13px] text-muted-foreground">
         {plainPreview(note.body) || "No additional text"}
       </p>
-      {nb ? <p className="mt-1 text-[11.5px] text-muted-foreground">{nb.name}</p> : null}
+      {nb ? (
+        <p className="mt-1 inline-flex rounded-md bg-accent-green/12 px-1.5 py-0.5 text-[11.5px] text-accent-green">{nb.name}</p>
+      ) : null}
     </Link>
   );
 }

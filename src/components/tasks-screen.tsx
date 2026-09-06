@@ -72,7 +72,7 @@ export function TaskRow({
         ) : null}
       </span>
       {task.priority === "high" && !task.done ? (
-        <span className="mt-1 shrink-0 rounded px-1.5 py-0.5 text-[11px] font-medium text-destructive" aria-label="High priority">
+        <span className="mt-1 shrink-0 rounded-md bg-destructive/10 px-1.5 py-0.5 text-[11px] font-medium text-destructive" aria-label="High priority">
           High
         </span>
       ) : null}
@@ -115,7 +115,7 @@ export function TasksScreen({ listId }: { listId: string }) {
         <div className="mb-5 flex flex-col gap-0.5">
           {SMART_LISTS.map(({ id, name, icon: Icon }) => (
             <RailLink key={id} to="/tasks/$listId" id={id} active={listId === id} count={countFor(id)}>
-              <Icon className="size-4 text-muted-foreground" aria-hidden />
+              <Icon className="size-4 text-accent-amber" aria-hidden />
               {name}
             </RailLink>
           ))}
