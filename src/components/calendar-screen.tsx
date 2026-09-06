@@ -68,8 +68,13 @@ export function CalendarScreen() {
     });
   };
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return <div className="min-h-screen" />;
+
   return (
     <div className="flex min-h-screen">
+
       <div className="min-w-0 flex-1">
         <div className="mx-auto w-full max-w-[1100px] px-4 py-7 md:px-8 md:py-10">
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
