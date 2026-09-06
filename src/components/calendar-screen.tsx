@@ -197,6 +197,7 @@ export function CalendarScreen() {
               </div>
             )}
           </section>
+          </div>
 
           <div className="h-10" />
         </div>
