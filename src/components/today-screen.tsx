@@ -357,10 +357,17 @@ function AgendaTask({
 }) {
   const { toggleTask } = useStore();
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
-      className="flex w-full gap-3 rounded-lg px-1 py-2.5 text-left transition-colors hover:bg-surface-2/60"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
+      className="flex w-full cursor-default gap-3 rounded-lg px-1 py-2.5 text-left transition-colors hover:bg-surface-2/60"
     >
       <span className={cn("tnum w-[60px] shrink-0 pt-0.5 text-right text-[12.5px]", overdue ? "text-destructive" : "text-muted-foreground")}>
         {showTime ? formatTime(task.dueTime) : overdue ? relativeDate(task.dueDate) : ""}
@@ -373,6 +380,6 @@ function AgendaTask({
           {task.priority === "high" ? " · High priority" : ""}
         </span>
       </span>
-    </button>
+    </div>
   );
 }

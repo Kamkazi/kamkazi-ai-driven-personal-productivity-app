@@ -44,11 +44,18 @@ export function TaskRow({
   ].filter(Boolean);
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
       className={cn(
-        "group flex w-full items-start gap-3 rounded-lg px-2.5 py-2.5 text-left transition-colors",
+        "group flex w-full cursor-default items-start gap-3 rounded-lg px-2.5 py-2.5 text-left transition-colors",
         selected ? "bg-surface-2" : "hover:bg-surface-2/70",
       )}
     >
@@ -69,7 +76,7 @@ export function TaskRow({
           High
         </span>
       ) : null}
-    </button>
+    </div>
   );
 }
 
