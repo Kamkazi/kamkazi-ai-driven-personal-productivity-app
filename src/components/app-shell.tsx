@@ -44,10 +44,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       >
         <div className={cn("flex items-center gap-2.5 pb-5", sidebarCollapsed ? "justify-center" : "px-2")}>
-          <span className="grid size-7 shrink-0 place-items-center rounded-[9px] bg-gradient-to-br from-accent-violet to-primary text-primary-foreground">
-            <CheckCircle2 className="size-4" aria-hidden />
+          <span className="gradient-primary grid size-8 shrink-0 place-items-center rounded-[12px] text-primary-foreground shadow-[var(--shadow-3d)]">
+            <CheckCircle2 className="size-[18px]" aria-hidden />
           </span>
-          {!sidebarCollapsed ? <span className="text-[15px] font-semibold tracking-tight">Daylight</span> : null}
+          {!sidebarCollapsed ? (
+            <span className="font-display text-[16px] font-extrabold tracking-tight">Daylight</span>
+          ) : null}
         </div>
 
         <button
@@ -55,47 +57,52 @@ export function AppShell({ children }: { children: ReactNode }) {
           onClick={() => setPaletteOpen(true)}
           aria-label="Search and commands"
           className={cn(
-            "mb-4 flex items-center gap-2 rounded-lg border border-sidebar-border bg-surface text-sm text-muted-foreground transition-colors hover:border-border-strong",
-            sidebarCollapsed ? "size-9 justify-center p-0" : "w-full px-2.5 py-2",
+            "tap mb-4 flex items-center gap-2 rounded-full border border-border bg-card text-sm font-medium text-muted-foreground shadow-[var(--shadow-panel)] transition-colors hover:text-foreground",
+            sidebarCollapsed ? "size-9 justify-center p-0" : "w-full px-3 py-2",
           )}
         >
           <Search className="size-4 shrink-0" aria-hidden />
           {!sidebarCollapsed ? (
             <>
               <span className="flex-1 text-left">Search</span>
-              <kbd className="flex items-center gap-0.5 rounded border border-border px-1 py-0.5 text-[10px] text-muted-foreground">
+              <kbd className="flex items-center gap-0.5 rounded-full border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                 <Command className="size-2.5" aria-hidden />K
               </kbd>
             </>
           ) : null}
         </button>
 
-        <nav className="flex w-full flex-1 flex-col gap-0.5" aria-label="Main">
+        <nav className="flex w-full flex-1 flex-col gap-1" aria-label="Main">
           {NAV.map(({ to, label, icon: Icon, tint, bg }) => (
             <Link
               key={to}
               to={to}
               title={sidebarCollapsed ? label : undefined}
               className={cn(
-                "group flex items-center gap-2.5 rounded-lg text-sm transition-colors",
-                sidebarCollapsed ? "justify-center px-0 py-2" : "px-2.5 py-[7px]",
+                "tap group flex items-center gap-2.5 rounded-full text-[13.5px] font-semibold transition-colors",
+                sidebarCollapsed ? "justify-center px-0 py-2" : "px-3 py-2",
                 isActive(to)
-                  ? cn(bg, "font-medium text-sidebar-accent-foreground")
-                  : "text-sidebar-foreground hover:bg-sidebar-accent/60",
+                  ? cn(bg, "text-sidebar-accent-foreground")
+                  : "text-sidebar-foreground hover:bg-sidebar-accent/70",
               )}
             >
-              <Icon className={cn("size-[17px] shrink-0", isActive(to) ? tint : "text-muted-foreground")} aria-hidden />
+              <Icon
+                className={cn("size-[18px] shrink-0", isActive(to) ? tint : "text-muted-foreground")}
+                strokeWidth={isActive(to) ? 2.4 : 1.9}
+                aria-hidden
+              />
               {!sidebarCollapsed ? (
                 <>
                   <span className="flex-1">{label}</span>
                   {to === "/tasks" && openCount > 0 ? (
-                    <span className="tnum rounded-md bg-accent-blue/12 px-1.5 text-[12px] text-accent-blue">{openCount}</span>
+                    <span className="num rounded-full bg-primary/12 px-2 text-[12px] font-bold text-primary">{openCount}</span>
                   ) : null}
                 </>
               ) : null}
             </Link>
           ))}
         </nav>
+
 
         <button
           type="button"
@@ -137,27 +144,44 @@ export function AppShell({ children }: { children: ReactNode }) {
       </aside>
 
 
-      <main className="flex min-w-0 flex-1 flex-col pb-[calc(60px+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
+      <main className="flex min-w-0 flex-1 flex-col pb-[calc(76px+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
 
       {/* iPhone bottom tab bar */}
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+        className="fixed inset-x-0 bottom-0 z-30 flex items-stretch border-t border-border bg-card/95 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5 backdrop-blur-xl md:hidden"
       >
-        {NAV.map(({ to, label, icon: Icon }) => (
+        {NAV.map(({ to, label, icon: Icon, bg, tint }) => (
           <Link
             key={to}
             to={to}
-            className={cn(
-              "flex flex-1 flex-col items-center gap-1 py-2 text-[10.5px] transition-colors",
-              isActive(to) ? "text-primary" : "text-muted-foreground",
-            )}
+            aria-current={isActive(to) ? "page" : undefined}
+            className="tap flex flex-1 flex-col items-center gap-1 py-1"
           >
-            <Icon className="size-[19px]" aria-hidden />
-            {label}
+            <span
+              className={cn(
+                "grid h-7 w-12 place-items-center rounded-full transition-colors",
+                isActive(to) ? bg : "bg-transparent",
+              )}
+            >
+              <Icon
+                className={cn("size-[19px]", isActive(to) ? tint : "text-muted-foreground")}
+                strokeWidth={isActive(to) ? 2.4 : 1.9}
+                aria-hidden
+              />
+            </span>
+            <span
+              className={cn(
+                "text-[10px] font-bold tracking-tight",
+                isActive(to) ? "text-foreground" : "text-muted-foreground",
+              )}
+            >
+              {label}
+            </span>
           </Link>
         ))}
       </nav>
+
     </div>
   );
 }
@@ -175,9 +199,10 @@ export function PageHeader({
   return (
     <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-border bg-background/85 px-4 py-3 backdrop-blur md:px-7">
       <div className="min-w-0 flex-1">
-        <h1 className="truncate text-[17px] font-semibold tracking-tight">{title}</h1>
-        {subtitle ? <p className="truncate text-[12.5px] text-muted-foreground">{subtitle}</p> : null}
+        <h1 className="truncate text-[19px] font-extrabold tracking-tight">{title}</h1>
+        {subtitle ? <p className="truncate text-[12.5px] font-medium text-muted-foreground">{subtitle}</p> : null}
       </div>
+
       {actions}
       <button
         type="button"
