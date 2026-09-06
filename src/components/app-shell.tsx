@@ -149,22 +149,39 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* iPhone bottom tab bar */}
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+        className="fixed inset-x-0 bottom-0 z-30 flex items-stretch border-t border-border bg-card/95 px-1 pb-[env(safe-area-inset-bottom)] pt-1.5 backdrop-blur-xl md:hidden"
       >
-        {NAV.map(({ to, label, icon: Icon }) => (
+        {NAV.map(({ to, label, icon: Icon, bg, tint }) => (
           <Link
             key={to}
             to={to}
-            className={cn(
-              "flex flex-1 flex-col items-center gap-1 py-2 text-[10.5px] transition-colors",
-              isActive(to) ? "text-primary" : "text-muted-foreground",
-            )}
+            aria-current={isActive(to) ? "page" : undefined}
+            className="tap flex flex-1 flex-col items-center gap-1 py-1"
           >
-            <Icon className="size-[19px]" aria-hidden />
-            {label}
+            <span
+              className={cn(
+                "grid h-7 w-12 place-items-center rounded-full transition-colors",
+                isActive(to) ? bg : "bg-transparent",
+              )}
+            >
+              <Icon
+                className={cn("size-[19px]", isActive(to) ? tint : "text-muted-foreground")}
+                strokeWidth={isActive(to) ? 2.4 : 1.9}
+                aria-hidden
+              />
+            </span>
+            <span
+              className={cn(
+                "text-[10px] font-bold tracking-tight",
+                isActive(to) ? "text-foreground" : "text-muted-foreground",
+              )}
+            >
+              {label}
+            </span>
           </Link>
         ))}
       </nav>
+
     </div>
   );
 }
