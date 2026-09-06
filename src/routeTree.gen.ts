@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChatIndexRouteImport } from './routes/chat.index'
+import { Route as ChatChatIdRouteImport } from './routes/chat.$chatId'
+import { Route as NotesIndexRouteImport } from './routes/notes.index'
+import { Route as NotesNoteIdRouteImport } from './routes/notes.$noteId'
+import { Route as TasksIndexRouteImport } from './routes/tasks.index'
+import { Route as TasksListIdRouteImport } from './routes/tasks.$listId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatIndexRoute = ChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatChatIdRoute = ChatChatIdRouteImport.update({
+  id: '/chat/$chatId',
+  path: '/chat/$chatId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotesIndexRoute = NotesIndexRouteImport.update({
+  id: '/notes/',
+  path: '/notes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotesNoteIdRoute = NotesNoteIdRouteImport.update({
+  id: '/notes/$noteId',
+  path: '/notes/$noteId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasksIndexRoute = TasksIndexRouteImport.update({
+  id: '/tasks/',
+  path: '/tasks/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TasksListIdRoute = TasksListIdRouteImport.update({
+  id: '/tasks/$listId',
+  path: '/tasks/$listId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/notes/$noteId': typeof NotesNoteIdRoute
+  '/tasks/$listId': typeof TasksListIdRoute
+  '/chat/': typeof ChatIndexRoute
+  '/notes/': typeof NotesIndexRoute
+  '/tasks/': typeof TasksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/notes/$noteId': typeof NotesNoteIdRoute
+  '/tasks/$listId': typeof TasksListIdRoute
+  '/chat': typeof ChatIndexRoute
+  '/notes': typeof NotesIndexRoute
+  '/tasks': typeof TasksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/chat/$chatId': typeof ChatChatIdRoute
+  '/notes/$noteId': typeof NotesNoteIdRoute
+  '/tasks/$listId': typeof TasksListIdRoute
+  '/chat/': typeof ChatIndexRoute
+  '/notes/': typeof NotesIndexRoute
+  '/tasks/': typeof TasksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/chat/$chatId'
+    | '/notes/$noteId'
+    | '/tasks/$listId'
+    | '/chat/'
+    | '/notes/'
+    | '/tasks/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/chat/$chatId'
+    | '/notes/$noteId'
+    | '/tasks/$listId'
+    | '/chat'
+    | '/notes'
+    | '/tasks'
+  id:
+    | '__root__'
+    | '/'
+    | '/chat/$chatId'
+    | '/notes/$noteId'
+    | '/tasks/$listId'
+    | '/chat/'
+    | '/notes/'
+    | '/tasks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChatChatIdRoute: typeof ChatChatIdRoute
+  NotesNoteIdRoute: typeof NotesNoteIdRoute
+  TasksListIdRoute: typeof TasksListIdRoute
+  ChatIndexRoute: typeof ChatIndexRoute
+  NotesIndexRoute: typeof NotesIndexRoute
+  TasksIndexRoute: typeof TasksIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/$chatId': {
+      id: '/chat/$chatId'
+      path: '/chat/$chatId'
+      fullPath: '/chat/$chatId'
+      preLoaderRoute: typeof ChatChatIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notes/': {
+      id: '/notes/'
+      path: '/notes'
+      fullPath: '/notes/'
+      preLoaderRoute: typeof NotesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notes/$noteId': {
+      id: '/notes/$noteId'
+      path: '/notes/$noteId'
+      fullPath: '/notes/$noteId'
+      preLoaderRoute: typeof NotesNoteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tasks/': {
+      id: '/tasks/'
+      path: '/tasks'
+      fullPath: '/tasks/'
+      preLoaderRoute: typeof TasksIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tasks/$listId': {
+      id: '/tasks/$listId'
+      path: '/tasks/$listId'
+      fullPath: '/tasks/$listId'
+      preLoaderRoute: typeof TasksListIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChatChatIdRoute: ChatChatIdRoute,
+  NotesNoteIdRoute: NotesNoteIdRoute,
+  TasksListIdRoute: TasksListIdRoute,
+  ChatIndexRoute: ChatIndexRoute,
+  NotesIndexRoute: NotesIndexRoute,
+  TasksIndexRoute: TasksIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
