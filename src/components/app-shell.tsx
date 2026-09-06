@@ -1,6 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   CalendarDays,
+  CalendarRange,
+
   CheckCircle2,
   Command,
   ListTodo,
@@ -21,7 +23,9 @@ import { userName } from "@/data/seed";
 
 const NAV: { to: string; label: string; icon: LucideIcon; tint: string; bg: string }[] = [
   { to: "/", label: "Today", icon: CalendarDays, tint: "text-accent-amber", bg: "bg-accent-amber/12" },
+  { to: "/calendar", label: "Calendar", icon: CalendarRange, tint: "text-accent-teal", bg: "bg-accent-teal/12" },
   { to: "/tasks", label: "Tasks", icon: ListTodo, tint: "text-accent-blue", bg: "bg-accent-blue/12" },
+
   { to: "/notes", label: "Notes", icon: NotebookPen, tint: "text-accent-green", bg: "bg-accent-green/12" },
   { to: "/chat", label: "AI Chat", icon: Sparkles, tint: "text-accent-violet", bg: "bg-accent-violet/12" },
   { to: "/settings", label: "Settings", icon: Settings2, tint: "text-accent-teal", bg: "bg-accent-teal/12" },

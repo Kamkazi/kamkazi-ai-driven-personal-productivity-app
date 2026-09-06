@@ -510,3 +510,24 @@ export const weather = {
 export const briefing = `You have a fairly busy morning with three meetings before lunch. Your design review at 11:30 is the most important event today — the homepage wireframes are due at 11:00, so that's the first thing worth finishing. Four tasks are due, including the client proposal. The afternoon is relatively open, which may be a good time for focused work.`;
 
 export const userName = "Shantanu";
+
+/** Events spread across nearby months so the calendar has something to show. */
+export interface DatedEvent extends CalendarEvent {
+  date: string;
+}
+
+export const datedEvents: DatedEvent[] = [
+  ...events.map((e) => ({ ...e, date: TODAY })),
+  { id: "d1", title: "Dentist appointment", date: dayOffset(-9), start: "09:30", durationMin: 45, location: "Smile Clinic", calendar: "Personal" },
+  { id: "d2", title: "Quarterly review", date: dayOffset(-5), start: "15:00", durationMin: 60, location: "Meet", calendar: "Work" },
+  { id: "d3", title: "Yoga class", date: dayOffset(-2), start: "07:00", durationMin: 60, calendar: "Personal" },
+  { id: "d4", title: "Sprint planning", date: dayOffset(1), start: "10:00", durationMin: 45, location: "Meet", calendar: "Work" },
+  { id: "d5", title: "Coffee with Meera", date: dayOffset(1), start: "16:30", durationMin: 45, location: "Blue Tokai", calendar: "Personal" },
+  { id: "d6", title: "Client workshop", date: dayOffset(3), start: "11:00", durationMin: 120, location: "Acme HQ", calendar: "Work" },
+  { id: "d7", title: "Anika's recital", date: dayOffset(4), allDay: true, calendar: "Personal" },
+  { id: "d8", title: "Design critique", date: dayOffset(6), start: "14:00", durationMin: 60, calendar: "Work" },
+  { id: "d9", title: "Weekend hike", date: dayOffset(9), start: "06:30", durationMin: 180, location: "Nandi Hills", calendar: "Personal" },
+  { id: "d10", title: "Product all-hands", date: dayOffset(12), start: "17:00", durationMin: 60, calendar: "Work" },
+  { id: "d11", title: "Flight to Tokyo", date: dayOffset(18), start: "22:10", durationMin: 420, calendar: "Personal" },
+  { id: "d12", title: "Roadmap sync", date: dayOffset(24), start: "12:00", durationMin: 30, calendar: "Work" },
+];
