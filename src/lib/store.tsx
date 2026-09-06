@@ -46,8 +46,11 @@ interface Store {
   theme: Theme;
   settings: Settings;
   paletteOpen: boolean;
+  sidebarCollapsed: boolean;
+  toggleSidebar: () => void;
   setPaletteOpen: (v: boolean) => void;
   toggleTheme: () => void;
+
   updateSetting: <K extends keyof Settings>(k: K, v: Settings[K]) => void;
   toggleTask: (id: string) => void;
   updateTask: (id: string, patch: Partial<Task>) => void;
@@ -75,6 +78,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [conversations, setConversations] = useState<Conversation[]>(seedConversations);
   const [theme, setTheme] = useState<Theme>("light");
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [settings, setSettings] = useState<Settings>({
     defaultListId: "inbox",
     defaultNotebookId: "personal",
@@ -208,6 +212,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       theme,
       settings,
       paletteOpen,
+      sidebarCollapsed,
+      toggleSidebar: () => setSidebarCollapsed((v) => !v),
       setPaletteOpen,
       toggleTheme: () => setTheme((t) => (t === "light" ? "dark" : "light")),
       updateSetting: (k, v) => setSettings((s) => ({ ...s, [k]: v })),
@@ -233,6 +239,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       theme,
       settings,
       paletteOpen,
+      sidebarCollapsed,
       toggleTask,
       updateTask,
       addTask,

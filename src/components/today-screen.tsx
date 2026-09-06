@@ -56,32 +56,38 @@ export function TodayScreen() {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h1 className="text-[28px] font-semibold leading-tight tracking-tight md:text-[32px]">
-                {greeting(now.getHours())}, {userName}
+                <span suppressHydrationWarning>{greeting(now.getHours())}</span>, {userName}
               </h1>
               <p className="mt-1 text-[14.5px] text-muted-foreground">{longDate(TODAY)}</p>
+
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
+            <div className="flex items-center gap-2 rounded-full border border-accent-amber/25 bg-accent-amber/10 px-3 py-1.5 text-muted-foreground">
               {weather.condition.toLowerCase().includes("cloud") ? (
-                <Cloud className="size-[18px]" aria-hidden />
+                <Cloud className="size-[18px] text-accent-teal" aria-hidden />
               ) : (
-                <Sun className="size-[18px]" aria-hidden />
+                <Sun className="size-[18px] text-accent-amber" aria-hidden />
               )}
-              <span className="tnum text-[14px] text-foreground">{weather.temp}°</span>
+              <span className="tnum text-[14px] font-medium text-foreground">{weather.temp}°</span>
               <span className="text-[13px]">{weather.condition}</span>
               <span className="tnum text-[13px]">
                 H {weather.high}° · L {weather.low}°
               </span>
             </div>
+
           </div>
 
           {/* briefing */}
           {settings.dailyBriefing ? (
-            <section className="mt-7 rounded-2xl border border-border bg-surface p-5" aria-label="Daily briefing">
-              <div className="mb-2.5 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.08em] text-primary">
+            <section
+              className="mt-7 rounded-2xl border border-accent-violet/20 bg-gradient-to-br from-accent-violet/8 via-surface to-accent-teal/8 p-5"
+              aria-label="Daily briefing"
+            >
+              <div className="mb-2.5 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.08em] text-accent-violet">
                 <Sparkles className="size-3.5" aria-hidden />
                 Daily briefing
               </div>
               <p className="text-[15.5px] leading-relaxed text-balance-tight">{briefing}</p>
+
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Plan my day", "Ask about today", "Prioritize my tasks"].map((label) => (
                   <button
@@ -139,7 +145,7 @@ export function TodayScreen() {
               }}
               className="hidden items-center gap-1.5 rounded-lg border border-border px-2.5 py-2 text-[13px] transition-colors hover:border-border-strong sm:flex"
             >
-              <Sparkles className="size-4 text-primary" aria-hidden />
+              <Sparkles className="size-4 text-accent-violet" aria-hidden />
               Ask AI
             </button>
           </div>
@@ -163,7 +169,7 @@ export function TodayScreen() {
             <section className="mt-7" aria-label="All day">
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">All day</p>
               {allDay.map((e) => (
-                <div key={e.id} className="rounded-lg bg-surface-2/70 px-3 py-2 text-[14px]">
+                <div key={e.id} className="rounded-lg border border-accent-teal/20 bg-accent-teal/10 px-3 py-2 text-[14px]">
                   {e.title}
                 </div>
               ))}
@@ -220,7 +226,7 @@ export function TodayScreen() {
                           </span>
                           <span
                             className="mt-1 w-[3px] shrink-0 rounded-full"
-                            style={{ backgroundColor: entry.event.calendar === "Work" ? "var(--color-primary)" : "var(--color-success)" }}
+                            style={{ backgroundColor: entry.event.calendar === "Work" ? "var(--color-accent-blue)" : entry.event.calendar === "Personal" ? "var(--color-accent-green)" : "var(--color-accent-amber)" }}
                             aria-hidden
                           />
                           <span className="min-w-0 flex-1">
@@ -300,7 +306,7 @@ export function TodayScreen() {
             />
             <CaptureAction
               label="Ask AI"
-              icon={<Sparkles className="size-4 text-primary" aria-hidden />}
+              icon={<Sparkles className="size-4 text-accent-violet" aria-hidden />}
               onClick={() => {
                 const id = addConversation();
                 setCapturing(false);
@@ -322,7 +328,7 @@ export function TodayScreen() {
           aria-label={capturing ? "Close quick capture" : "Quick capture"}
           aria-expanded={capturing}
           onClick={() => setCapturing((v) => !v)}
-          className="grid size-12 place-items-center rounded-full bg-primary text-primary-foreground shadow-raised transition-transform active:scale-95"
+          className="grid size-12 place-items-center rounded-full bg-gradient-to-br from-accent-violet to-primary text-primary-foreground shadow-raised transition-transform active:scale-95"
         >
           {capturing ? <X className="size-5" aria-hidden /> : <Plus className="size-5" aria-hidden />}
         </button>

@@ -72,7 +72,7 @@ export function TaskRow({
         ) : null}
       </span>
       {task.priority === "high" && !task.done ? (
-        <span className="mt-1 shrink-0 rounded px-1.5 py-0.5 text-[11px] font-medium text-destructive" aria-label="High priority">
+        <span className="mt-1 shrink-0 rounded-md bg-destructive/10 px-1.5 py-0.5 text-[11px] font-medium text-destructive" aria-label="High priority">
           High
         </span>
       ) : null}
@@ -115,7 +115,7 @@ export function TasksScreen({ listId }: { listId: string }) {
         <div className="mb-5 flex flex-col gap-0.5">
           {SMART_LISTS.map(({ id, name, icon: Icon }) => (
             <RailLink key={id} to="/tasks/$listId" id={id} active={listId === id} count={countFor(id)}>
-              <Icon className="size-4 text-muted-foreground" aria-hidden />
+              <Icon className="size-4 text-accent-amber" aria-hidden />
               {name}
             </RailLink>
           ))}
@@ -167,7 +167,32 @@ export function TasksScreen({ listId }: { listId: string }) {
       {/* task list */}
       <div className="flex min-w-0 flex-1 flex-col">
         <PageHeader title={title} subtitle={`${open.length} open · ${done.length} completed`} />
+
+        {/* list switcher — iPad & mobile */}
+        <div className="flex gap-2 overflow-x-auto border-b border-border px-3 py-2.5 lg:hidden">
+          {[...SMART_LISTS.map((l) => ({ id: l.id, name: l.name, color: "var(--color-accent-amber)" })), ...lists].map(
+            (l) => (
+              <Link
+                key={l.id}
+                to="/tasks/$listId"
+                params={{ listId: l.id }}
+                className={cn(
+                  "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[13px] transition-colors",
+                  listId === l.id
+                    ? "border-transparent bg-primary/12 font-medium text-primary"
+                    : "border-border text-muted-foreground",
+                )}
+              >
+                <span className="size-1.5 rounded-full" style={{ backgroundColor: l.color }} aria-hidden />
+                {l.name}
+                {countFor(l.id) > 0 ? <span className="tnum text-[12px] opacity-70">{countFor(l.id)}</span> : null}
+              </Link>
+            ),
+          )}
+        </div>
+
         <div className="mx-auto w-full max-w-2xl flex-1 px-3 py-4 md:px-6">
+
           <form
             onSubmit={(e) => {
               e.preventDefault();
