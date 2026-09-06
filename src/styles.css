@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Daylight design system — "Soft sand & teal".
+ * Kamkazi design system — "Soft sand & teal".
  * Sora for display/numbers, Manrope for body.
  * All colors are oklch semantic tokens. Never hardcode colors in components.
  */

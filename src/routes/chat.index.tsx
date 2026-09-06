@@ -4,9 +4,9 @@ import { ChatScreen } from "@/components/chat-screen";
 export const Route = createFileRoute("/chat/")({
   head: () => ({
     meta: [
-      { title: "AI Chat — Daylight" },
+      { title: "AI Chat — Kamkazi" },
       { name: "description", content: "Ask about your day, prioritise tasks, search notes and create things by typing." },
-      { property: "og:title", content: "AI Chat — Daylight" },
+      { property: "og:title", content: "AI Chat — Kamkazi" },
       { property: "og:description", content: "Ask about your day, prioritise tasks, search notes and create things by typing." },
     ],
   }),
