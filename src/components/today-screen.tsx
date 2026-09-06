@@ -80,13 +80,24 @@ export function TodayScreen() {
 
           </div>
 
+          {/* pastel hero illustration */}
+          <section className="animate-fade-up mt-6 overflow-hidden rounded-[var(--radius-xl)] border border-border shadow-[var(--shadow-panel)]">
+            <img
+              src={heroIllustration}
+              alt="Illustration of a calm valley at sunrise"
+              width={1536}
+              height={768}
+              className="h-[150px] w-full object-cover md:h-[210px]"
+            />
+          </section>
+
           {/* briefing */}
           {settings.dailyBriefing ? (
             <section
-              className="gradient-primary animate-fade-up mt-7 rounded-[var(--radius-xl)] p-5 text-primary-foreground shadow-[var(--shadow-3d)]"
+              className="gradient-primary animate-fade-up mt-4 rounded-[var(--radius-xl)] border border-border p-5 text-foreground shadow-[var(--shadow-panel)]"
               aria-label="Daily briefing"
             >
-              <div className="mb-2.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] opacity-80">
+              <div className="mb-2.5 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground">
                 <Sparkles className="size-3.5" aria-hidden />
                 Daily briefing
               </div>
@@ -101,7 +112,7 @@ export function TodayScreen() {
                       const id = addConversation();
                       void navigate({ to: "/chat/$chatId", params: { chatId: id } });
                     }}
-                    className="tap rounded-full border border-primary-foreground/25 bg-primary-foreground/12 px-3 py-1.5 text-[13px] font-semibold backdrop-blur transition-colors hover:bg-primary-foreground/20"
+                    className="tap rounded-full border border-border bg-card/70 px-3 py-1.5 text-[13px] font-semibold backdrop-blur transition-colors hover:bg-card"
                   >
                     {label}
                   </button>
@@ -109,6 +120,45 @@ export function TodayScreen() {
               </div>
             </section>
           ) : null}
+
+          {/* overview */}
+          <section className="mt-5" aria-label="Today's overview">
+            <h2 className="mb-2.5 text-[16px] font-bold tracking-tight">Today's overview</h2>
+            <div className="grid gap-2.5 sm:grid-cols-3">
+              {[
+                {
+                  label: "Tasks completed",
+                  value: `${todaysTasks.filter((t) => t.done).length}/${todaysTasks.length}`,
+                  icon: CheckCircle2,
+                  tint: "bg-accent-green/15 text-accent-green",
+                },
+                {
+                  label: "Events today",
+                  value: `${events.length}`,
+                  icon: Clock,
+                  tint: "bg-accent-blue/15 text-accent-blue",
+                },
+                {
+                  label: "Focus blocks",
+                  value: `${timeline.length}`,
+                  icon: Zap,
+                  tint: "bg-accent-amber/18 text-accent-amber",
+                },
+              ].map(({ label, value, icon: Icon, tint }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-3 rounded-[var(--radius-lg)] border border-border bg-card px-3.5 py-3 shadow-[var(--shadow-panel)]"
+                >
+                  <span className={cn("grid size-9 shrink-0 place-items-center rounded-full", tint)}>
+                    <Icon className="size-[18px]" aria-hidden />
+                  </span>
+                  <span className="min-w-0 flex-1 truncate text-[13.5px] font-medium text-muted-foreground">{label}</span>
+                  <span className="num text-[16px] font-bold">{value}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
 
           {/* quick capture */}
           <div className="mt-5 flex flex-wrap items-center gap-2">
