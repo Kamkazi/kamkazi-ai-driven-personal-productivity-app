@@ -56,9 +56,10 @@ export function TodayScreen() {
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h1 className="text-[28px] font-semibold leading-tight tracking-tight md:text-[32px]">
-                {greeting(now.getHours())}, {userName}
+                <span suppressHydrationWarning>{greeting(now.getHours())}</span>, {userName}
               </h1>
               <p className="mt-1 text-[14.5px] text-muted-foreground">{longDate(TODAY)}</p>
+
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               {weather.condition.toLowerCase().includes("cloud") ? (
