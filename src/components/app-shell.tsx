@@ -199,9 +199,10 @@ export function PageHeader({
   return (
     <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-border bg-background/85 px-4 py-3 backdrop-blur md:px-7">
       <div className="min-w-0 flex-1">
-        <h1 className="truncate text-[17px] font-semibold tracking-tight">{title}</h1>
-        {subtitle ? <p className="truncate text-[12.5px] text-muted-foreground">{subtitle}</p> : null}
+        <h1 className="truncate text-[19px] font-extrabold tracking-tight">{title}</h1>
+        {subtitle ? <p className="truncate text-[12.5px] font-medium text-muted-foreground">{subtitle}</p> : null}
       </div>
+
       {actions}
       <button
         type="button"
