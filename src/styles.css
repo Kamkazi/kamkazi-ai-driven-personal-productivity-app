@@ -5,20 +5,22 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Cool graphite design system.
- * Light: cool off-white surfaces, ink text. Dark: layered charcoal.
- * Accent: muted blue, used sparingly.
+ * Daylight design system — "Soft sand & teal".
+ * Sora for display/numbers, Manrope for body.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
  */
 
 @theme inline {
-  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 5px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 12px);
+
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
