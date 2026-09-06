@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
+  CheckCircle2,
+  Clock,
   Cloud,
   ListPlus,
   MessageSquarePlus,
@@ -9,6 +11,7 @@ import {
   StickyNote,
   Sun,
   X,
+  Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useStore } from "@/lib/store";
@@ -17,6 +20,8 @@ import { formatDuration, formatTime, greeting, longDate, minutesOf, relativeDate
 import { TaskCheckbox, EmptyState } from "@/components/primitives";
 import { TaskDetail } from "@/components/task-detail";
 import { cn } from "@/lib/utils";
+import heroIllustration from "@/assets/today-hero.jpg";
+
 
 export function TodayScreen() {
   const { tasks, events, setPaletteOpen, addTask, addNote, addConversation, settings } = useStore();
