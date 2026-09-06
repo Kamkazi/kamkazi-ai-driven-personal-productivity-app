@@ -183,14 +183,14 @@ export function TodayScreen() {
 
           {/* agenda */}
           <section className="mt-7" aria-label="Today's agenda">
-            <div className="mb-3 flex items-baseline justify-between">
-              <h2 className="text-[15px] font-semibold tracking-tight">Today's agenda</h2>
+            <div className="mb-3 flex items-baseline justify-between gap-3">
+              <h2 className="text-[16px] font-bold tracking-tight">Today's agenda</h2>
               {nextUp ? (
-                <p className="text-[12.5px] text-muted-foreground">
+                <p className="truncate text-[12.5px] font-medium text-muted-foreground">
                   Next: {nextUp.event?.title ?? nextUp.task?.title} at {formatTime(nextUp.event?.start ?? nextUp.task?.dueTime)}
                 </p>
               ) : (
-                <p className="text-[12.5px] text-muted-foreground">Nothing left on the calendar</p>
+                <p className="text-[12.5px] font-medium text-muted-foreground">Nothing left on the calendar</p>
               )}
             </div>
 
@@ -201,7 +201,8 @@ export function TodayScreen() {
                 description="No meetings and nothing scheduled. Good time for deep work."
               />
             ) : (
-              <div className="relative">
+              <div className="panel relative px-2 py-2">
+
                 {timeline.map((entry, idx) => {
                   const prev = timeline[idx - 1];
                   const gap = prev ? entry.min - (prev.min + (prev.event?.durationMin ?? 0)) : 0;
