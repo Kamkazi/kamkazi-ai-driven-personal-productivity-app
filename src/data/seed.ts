@@ -74,18 +74,18 @@ export interface Conversation {
   messages: ChatMessage[];
 }
 
-const today = () => {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-};
+/** UTC-based so server render and browser render always agree. */
+const stamp = (d: Date) =>
+  `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}-${String(d.getUTCDate()).padStart(2, "0")}`;
 
 export const dayOffset = (n: number) => {
   const d = new Date();
-  d.setDate(d.getDate() + n);
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  d.setUTCDate(d.getUTCDate() + n);
+  return stamp(d);
 };
 
-export const TODAY = today();
+export const TODAY = dayOffset(0);
+
 
 export const taskLists: TaskList[] = [
   { id: "inbox", name: "Inbox", icon: "inbox", color: "var(--color-muted-foreground)" },
