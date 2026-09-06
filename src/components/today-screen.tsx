@@ -22,16 +22,20 @@ export function TodayScreen() {
   const { tasks, events, setPaletteOpen, addTask, addNote, addConversation, settings } = useStore();
   const navigate = useNavigate();
   const [now, setNow] = useState(() => new Date());
+  const [mounted, setMounted] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [quickTask, setQuickTask] = useState("");
   const [capturing, setCapturing] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    setNow(new Date());
     const t = setInterval(() => setNow(new Date()), 60_000);
     return () => clearInterval(t);
   }, []);
 
-  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const nowMin = mounted ? now.getHours() * 60 + now.getMinutes() : -1;
+
   const selected = tasks.find((t) => t.id === selectedId) ?? null;
 
   const todaysTasks = tasks.filter((t) => t.dueDate && t.dueDate <= TODAY);
