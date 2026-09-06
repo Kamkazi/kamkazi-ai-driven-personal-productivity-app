@@ -19,6 +19,7 @@ import { TODAY, briefing, userName, weather, type Task } from "@/data/seed";
 import { formatDuration, formatTime, greeting, longDate, minutesOf, relativeDate } from "@/lib/format";
 import { TaskCheckbox, EmptyState } from "@/components/primitives";
 import { TaskDetail } from "@/components/task-detail";
+import { EventDetail } from "@/components/event-detail";
 import { cn } from "@/lib/utils";
 import heroMorning from "@/assets/today-hero.jpg";
 import heroAfternoon from "@/assets/today-hero-afternoon.jpg";
@@ -43,6 +44,7 @@ export function TodayScreen() {
   const [now, setNow] = useState(() => new Date());
   const [mounted, setMounted] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [quickTask, setQuickTask] = useState("");
   const [capturing, setCapturing] = useState(false);
 
@@ -56,6 +58,8 @@ export function TodayScreen() {
   const nowMin = mounted ? now.getHours() * 60 + now.getMinutes() : -1;
 
   const selected = tasks.find((t) => t.id === selectedId) ?? null;
+  const rawEvent = events.find((e) => e.id === selectedEventId) ?? null;
+  const selectedEvent = rawEvent ? { ...rawEvent, date: TODAY } : null;
 
   const todaysTasks = tasks.filter((t) => t.dueDate && t.dueDate <= TODAY);
   const overdue = todaysTasks.filter((t) => !t.done && t.dueDate && t.dueDate < TODAY);
@@ -246,7 +250,23 @@ export function TodayScreen() {
             <section className="mt-7" aria-label="All day">
               <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">All day</p>
               {allDay.map((e) => (
-                <div key={e.id} className="rounded-lg border border-accent-teal/20 bg-accent-teal/10 px-3 py-2 text-[14px]">
+                <div
+                  key={e.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => {
+                    setSelectedId(null);
+                    setSelectedEventId(e.id);
+                  }}
+                  onKeyDown={(ev) => {
+                    if (ev.key === "Enter" || ev.key === " ") {
+                      ev.preventDefault();
+                      setSelectedId(null);
+                      setSelectedEventId(e.id);
+                    }
+                  }}
+                  className="cursor-default rounded-lg border border-accent-teal/20 bg-accent-teal/10 px-3 py-2 text-[14px] transition-colors hover:bg-accent-teal/15"
+                >
                   {e.title}
                 </div>
               ))}
@@ -300,7 +320,22 @@ export function TodayScreen() {
                         </div>
                       ) : null}
                       {entry.node === "event" && entry.event ? (
-                        <div className="group flex gap-3 rounded-lg px-1 py-2.5 transition-colors hover:bg-surface-2/60">
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => {
+                            setSelectedId(null);
+                            setSelectedEventId(entry.event!.id);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setSelectedId(null);
+                              setSelectedEventId(entry.event!.id);
+                            }
+                          }}
+                          className="group flex cursor-default gap-3 rounded-lg px-1 py-2.5 text-left transition-colors hover:bg-surface-2/60"
+                        >
                           <span className="tnum w-[60px] shrink-0 pt-0.5 text-right text-[12.5px] text-muted-foreground">
                             {formatTime(entry.event.start)}
                           </span>
@@ -350,22 +385,33 @@ export function TodayScreen() {
       </div>
 
       {/* detail panel */}
-      {selected ? (
+      {selected || selectedEvent ? (
         <>
           <div className="hidden w-[350px] shrink-0 border-l border-border xl:block">
             <div className="sticky top-0 h-screen">
-              <TaskDetail task={selected} onClose={() => setSelectedId(null)} />
+              {selected ? (
+                <TaskDetail task={selected} onClose={() => setSelectedId(null)} />
+              ) : selectedEvent ? (
+                <EventDetail event={selectedEvent} onClose={() => setSelectedEventId(null)} />
+              ) : null}
             </div>
           </div>
           <div className="fixed inset-0 z-40 xl:hidden">
             <button
               type="button"
-              aria-label="Close task details"
-              onClick={() => setSelectedId(null)}
+              aria-label="Close details"
+              onClick={() => {
+                setSelectedId(null);
+                setSelectedEventId(null);
+              }}
               className="absolute inset-0 bg-foreground/20"
             />
             <div className="absolute inset-x-0 bottom-0 top-16 animate-in slide-in-from-bottom-6 overflow-hidden rounded-t-2xl border-t border-border bg-surface shadow-raised duration-200">
-              <TaskDetail task={selected} onClose={() => setSelectedId(null)} />
+              {selected ? (
+                <TaskDetail task={selected} onClose={() => setSelectedId(null)} />
+              ) : selectedEvent ? (
+                <EventDetail event={selectedEvent} onClose={() => setSelectedEventId(null)} />
+              ) : null}
             </div>
           </div>
         </>
