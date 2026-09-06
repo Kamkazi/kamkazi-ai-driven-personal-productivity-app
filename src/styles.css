@@ -167,7 +167,15 @@
   --sidebar-border: oklch(1 0 0 / 8%);
   --sidebar-primary: oklch(0.68 0.09 250);
   --sidebar-primary-foreground: oklch(0.18 0.01 265);
+
+  --accent-blue: oklch(0.72 0.1 250);
+  --accent-teal: oklch(0.74 0.09 200);
+  --accent-green: oklch(0.73 0.1 155);
+  --accent-amber: oklch(0.79 0.11 75);
+  --accent-violet: oklch(0.72 0.11 300);
+  --accent-rose: oklch(0.73 0.12 15);
 }
+
 
 @layer base {
   * {
