@@ -9,15 +9,15 @@ export interface Subtask {
 export interface Task {
   id: string;
   title: string;
-  notes?: string;
+  notes?: string | undefined;
   listId: string;
   done: boolean;
   /** ISO date, e.g. "2026-09-06" */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** "14:30" */
-  dueTime?: string;
-  reminder?: string;
-  repeat?: string;
+  dueTime?: string | undefined;
+  reminder?: string | undefined;
+  repeat?: string | undefined;
   priority: Priority;
   tags: string[];
   subtasks: Subtask[];
@@ -36,10 +36,10 @@ export interface TaskList {
 export interface CalendarEvent {
   id: string;
   title: string;
-  start?: string;
-  durationMin?: number;
-  allDay?: boolean;
-  location?: string;
+  start?: string | undefined;
+  durationMin?: number | undefined;
+  allDay?: boolean | undefined;
+  location?: string | undefined;
   calendar: "Work" | "Personal";
 }
 
@@ -63,14 +63,14 @@ export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
-  action?: { kind: "task" | "note"; title: string; meta: string };
+  action?: { kind: "task" | "note"; title: string; meta: string } | undefined;
 }
 
 export interface Conversation {
   id: string;
   title: string;
   updatedAt: string;
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   messages: ChatMessage[];
 }
 
