@@ -30,10 +30,16 @@ export function formatDuration(min?: number | undefined) {
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-export function longDate(iso: string) {
-  const d = new Date(`${iso}T00:00:00`);
-  return `${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}`;
+function parseISO(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y ?? 1970, (m ?? 1) - 1, d ?? 1));
 }
+
+export function longDate(iso: string) {
+  const d = parseISO(iso);
+  return `${DAYS[d.getUTCDay()]}, ${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+}
+
 
 /** "Today", "Tomorrow", "Yesterday", "Mon, Sep 14" */
 export function relativeDate(iso?: string | undefined) {
