@@ -155,7 +155,7 @@ export function CalendarScreen() {
 
 
           {/* agenda */}
-          <section className="mt-7" aria-label="Agenda for selected day">
+          <section className="min-w-0" aria-label="Agenda for selected day">
             <h2 className="mb-3 text-[16px] font-bold tracking-tight">
               {selected === TODAY ? "Today" : longDate(selected)}
             </h2>
