@@ -67,7 +67,14 @@ interface Store {
   togglePinConversation: (id: string) => void;
 }
 
-const StoreContext = createContext<Store | null>(null);
+// Keep a single context instance across hot reloads so the provider and
+// consumers never end up on two different contexts during Fast Refresh.
+const globalScope = globalThis as typeof globalThis & {
+  __daylightStoreContext?: React.Context<Store | null>;
+};
+const StoreContext =
+  globalScope.__daylightStoreContext ?? createContext<Store | null>(null);
+globalScope.__daylightStoreContext = StoreContext;
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 
