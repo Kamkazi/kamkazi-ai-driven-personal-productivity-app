@@ -48,9 +48,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       >
         <div className={cn("flex items-center gap-2.5 pb-5", sidebarCollapsed ? "justify-center" : "px-2")}>
-          <span className="gradient-primary grid size-8 shrink-0 place-items-center rounded-[12px] text-primary-foreground shadow-[var(--shadow-3d)]">
-            <CheckCircle2 className="size-[18px]" aria-hidden />
-          </span>
+          <img
+            src={logoMark}
+            alt="Kamkazi"
+            width={1024}
+            height={1024}
+            className="size-8 shrink-0 rounded-[12px] shadow-[var(--shadow-3d)]"
+          />
           {!sidebarCollapsed ? (
             <span className="font-display text-[16px] font-extrabold tracking-tight">Kamkazi</span>
           ) : null}
