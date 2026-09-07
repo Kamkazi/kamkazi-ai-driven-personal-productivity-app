@@ -19,7 +19,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/lib/store";
 import { userName } from "@/data/seed";
-import logoMark from "@/assets/kamkazi-logo.png";
+import logoMark from "@/assets/kamkazi-logo-cal.png";
 
 const NAV: { to: string; label: string; icon: LucideIcon; tint: string; bg: string }[] = [
   { to: "/", label: "Today", icon: CalendarDays, tint: "text-accent-amber", bg: "bg-accent-amber/12" },
