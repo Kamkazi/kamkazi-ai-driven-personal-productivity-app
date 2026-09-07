@@ -3,7 +3,6 @@ import {
   CalendarDays,
   CalendarRange,
 
-  CheckCircle2,
   Command,
   ListTodo,
   Moon,
